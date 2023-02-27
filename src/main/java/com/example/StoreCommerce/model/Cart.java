@@ -1,56 +1,51 @@
 package com.example.StoreCommerce.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
-@Table(name = "cart")
+@Table(name = "carrello")
+
 public class Cart {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private int id;
 
     @ManyToOne
-    @JoinColumn(name = "product_id", referencedColumnName = "id")
-    private Product product;
-    private int quantity;
+    @JoinColumn(name = "username")
+    private Utente utente;
+
+    @OneToMany(mappedBy = "cart")
+    private List<CartEntry> cartProducts = new ArrayList<>();
 
     public Cart() {
     }
 
-    public Cart(Product product, int quantity) {
-        this.product = product;
-        this.quantity = quantity;
+    public Cart(int id, List<CartEntry> cartProducts) {
+        this.id = id;
+        this.cartProducts = cartProducts;
     }
 
-    public Integer getId() {
+    public Cart(Utente utente, List<CartEntry> cartProducts) {
+        this.utente = utente;
+        this.cartProducts = cartProducts;
+    }
+
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public Product getProduct() {
-        return product;
+    public List<CartEntry> getCartProducts() {
+        return cartProducts;
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
+    public void setCartProducts(List<CartEntry> cartProducts) {
+        this.cartProducts = cartProducts;
     }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-
-
-    @Override
-    public String toString() {
-        return "Cart [id=" + id + ", product=" + product.getId() + ", quantity=" + quantity + "]";
-    }
-
 }

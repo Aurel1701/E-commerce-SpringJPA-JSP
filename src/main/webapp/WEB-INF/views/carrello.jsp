@@ -22,7 +22,6 @@
 	<table class="table table-striped text-center mt-3">
 		 <thead >
                <tr>
-                <th width="20%">sku</th>
                  <th width="20%">name</th>
                  <th width="20%">price</th>
                 <th width="20%">quantity</th>
@@ -30,16 +29,15 @@
                </tr>
               </thead>
 		<tbody>
-			<c:forEach items="${carrello}" var="prodotto" >
+			<c:forEach items="${cartentry}" var="cart" >
 				<tr>
-                    <td>${prodotto.product.sku}</td>
-					<td>${prodotto.product.name}</td>
-					<td>${prodotto.product.price}</td>
-					<td>${prodotto.quantity}</td>
+                    <td>${cart.product.nome}</td>
+					<td>${cart.product.prezzo}</td>
+					<td>${cart.quantita}</td>
 					<td>
 
 					<form method="POST" action="/removeFromCart">
-                    <input type="hidden" name="id" value="${prodotto.product.id}"/>
+                    <input type="hidden" name="id" value="${cart.product.id}"/>
 					    <button type="submit"  class="btn btn-warning">
                                     Cancella dal carrello
                          </button>

@@ -24,20 +24,17 @@
      <table class="table table-striped">
       <thead>
        <tr>
-        <th width="20%">SKU</th>
-         <th width="20%">nome</th>
-        <th width="20%">Prezzo</th>
-        <th width="20%">Quantity</th>
-
-        <th width="20%"></th>
+         <th width="30%">nome</th>
+        <th width="30%">Prezzo</th>
+        <th width="30%">Quantity</th>
+        <th width="10%"></th>
        </tr>
       </thead>
       <tbody>
        <c:forEach items="${catalogo}" var="prodotto">
         <tr>
-         <td>${prodotto.sku}</td>
-         <td>${prodotto.name}</td>
-         <td>${prodotto.price}</td>
+         <td>${prodotto.nome}</td>
+         <td>${prodotto.prezzo}</td>
          <td>
          <form class="d-flex" action="/addCarrello" method="post">
           <input type="hidden" name="id" value="${prodotto.id}">

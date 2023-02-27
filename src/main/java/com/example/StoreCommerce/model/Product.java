@@ -1,82 +1,54 @@
 package com.example.StoreCommerce.model;
 
+
 import javax.persistence.*;
-import java.util.List;
+
 
 @Entity
-@Table(name = "product")
+@Table(name = "prodotto")
 public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private int id;
 
-    private String name;
-    private String sku;
-    private double price;
+    @Column(name = "nome")
+    private String nome;
 
-    @OneToMany(mappedBy = "product")
-    private List<Cart> carts;
+    @Column(name = "prezzo")
+    private double prezzo;
 
 
     public Product() {
     }
 
-    public Product(String name, String sku, double price, List<Cart> carts) {
-        this.name = name;
-        this.sku = sku;
-        this.price = price;
-        this.carts = carts;
+    public Product(int id, String nome, double prezzo) {
+        this.id = id;
+        this.nome = nome;
+        this.prezzo = prezzo;
     }
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getNome() {
+        return nome;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
-    public String getSku() {
-        return sku;
+    public double getPrezzo() {
+        return prezzo;
     }
 
-    public void setSku(String sku) {
-        this.sku = sku;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
-    public List<Cart> getCarts() {
-        return carts;
-    }
-
-    public void setCarts(List<Cart> carts) {
-        this.carts = carts;
-    }
-
-    @Override
-    public String toString() {
-        return "Product{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", sku='" + sku + '\'' +
-                ", price=" + price +
-                ", carts=" + carts +
-                '}';
+    public void setPrezzo(double prezzo) {
+        this.prezzo = prezzo;
     }
 }

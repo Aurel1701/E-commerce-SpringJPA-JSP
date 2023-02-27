@@ -26,21 +26,20 @@
                 <table class="table table-striped mb-0">
               <thead>
                 <tr>
-                    <th class="text-center" width="20%">Sku</th>
-                  <th class="text-center" width="20%">Nome</th>
-                  <th class="text-center" width="20%">Prezzo</th>
-                  <th class="text-center" width="20%">Quantità</th>
-                  <th class="text-center" width="20%">Subtotale</th>
+                  <th class="text-center" width="30%">Nome</th>
+                  <th class="text-center" width="30%">Prezzo</th>
+                  <th class="text-center" width="30%">Quantità</th>
+
                 </tr>
               </thead>
               <tbody>
-                <c:forEach items="${carrello}" var="prodotto">
+                <c:forEach items="${cartentry}" var="cart">
                       <tr>
-                     <td class="text-center">${prodotto.product.sku}</td>
-                    <td class="text-center">${prodotto.product.name}</td>
-                    <td class="text-center">${prodotto.product.price}</td>
-                      <td class="text-center">${prodotto.quantity}</td>
-                     <td class="text-center">${prodotto.product.price * prodotto.quantity}</td>
+
+                    <td class="text-center">${cart.product.nome}</td>
+                    <td class="text-center">${cart.product.prezzo}</td>
+                      <td class="text-center">${cart.quantita}</td>
+
                    </tr>
                 </c:forEach>
               </tbody>
@@ -52,7 +51,9 @@
             </div>
 
       <div class="d-flex justify-content-center mt-3">
+            <form method="POST" action="/chiudiOrdine">
             <button class="btn btn-danger" onclick="alert('Grazie per l\'acquisto')">Paga</button>
+            </form>
           </div>
 
         <div class="text-center mt-3">
