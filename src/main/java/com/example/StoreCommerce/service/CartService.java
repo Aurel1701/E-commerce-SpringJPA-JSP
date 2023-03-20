@@ -28,23 +28,46 @@ public class CartService {
     @Autowired
     private UtenteRepository utenteRepository;
 
-    public void addToCart(int prodottoId, int quantita) {
+    public Cart addToCart(int prodottoId, int quantita) {
 
         Optional<Product> product = productRepository.findById(prodottoId);
 
         Product product1 = product.get();
 
-        List<Utente> utenteList = utenteRepository.findAll();
-        String username = utenteList.iterator().next().getUsername();
+        /*List<Utente> utenteList = utenteRepository.findAll();
+        String username = utenteList.iterator().next().getUsername();*/
 
-        Optional<Cart> optionalCart = cartRepository.findByUtenteUsername(username);
-        Cart c;
-        if(optionalCart.isEmpty()) {
+        String username = UtenteService.usernameLog;
+
+
+        //Optional<Cart> optionalCart = cartRepository.findByUtenteUsername(username);
+        List<Cart> cartList = cartRepository.findAll();
+        Cart c = new Cart();
+        boolean isPresent = false;
+        if (!cartList.isEmpty()) {
+            for (Cart cart : cartList) {
+                if (cart.getUtente().getUsername().equals(username) && !cart.isPaid()) {
+                    c = cart;
+                    isPresent = true;
+                }
+            }
+        } else {
+            c = new Cart(new Utente(username,""),new ArrayList<>());
+            cartRepository.save(c);
+        }
+
+        if (!isPresent) {
+            c = new Cart(new Utente(username,""),new ArrayList<>());
+            cartRepository.save(c);
+        }
+
+
+        /*if(optionalCart.isEmpty()) {
             c = new Cart(new Utente(username,""),new ArrayList<>());
             cartRepository.save(c);
         } else {
             c = optionalCart.get();
-        }
+        }*/
 
         Optional<CartEntry> optionalCartEntry = cartEntryRepository.findByProductAndCart(product1, c);
         CartEntry cartEntry;
@@ -59,9 +82,10 @@ public class CartService {
 
         cartEntryRepository.save(cartEntry);
 
+        return c;
     }
 
-    public void removeFromCart(int prodottoId) {
+    public void removeFromCart(int prodottoId, int idCarrello) {
 
         Optional<Product> optionalProduct = productRepository.findById(prodottoId);
         Product product = optionalProduct.get();
@@ -69,7 +93,7 @@ public class CartService {
         List<Utente> utenteList = utenteRepository.findAll();
         String username = utenteList.iterator().next().getUsername();
 
-        Optional<Cart> optionalCart = cartRepository.findByUtenteUsername(username);
+        Optional<Cart> optionalCart = cartRepository.findById(idCarrello);
         if (optionalCart.isPresent()) {
             Cart cart = optionalCart.get();
             Optional<CartEntry> optionalCartEntry = cartEntryRepository.findByProductAndCart(product, cart);
@@ -82,21 +106,37 @@ public class CartService {
         }
     }
 
-    /*public void chiudiOrdine() {
-        List<Utente> utenteList = utenteRepository.findAll();
-        String username = utenteList.iterator().next().getUsername();
 
-        Optional<Cart> optionalCart = cartRepository.findByUtenteUsername(username);
-        Cart cart = optionalCart.get();
+    public void saveOrder(String username,int idCarrello) {
 
-        Utente user = utenteRepository.findByUsername(username);
+        Optional<Cart> carrelloUtente = cartRepository.findById(idCarrello);
+       Optional<Utente> optionalUtente = utenteRepository.findById(username);
 
-        Order order = new Order(cart,user);
-        orderRepository.save(order);
+        if (carrelloUtente.isPresent() && optionalUtente.isPresent()) {
+            Cart cart = carrelloUtente.get();
+           Utente utente = optionalUtente.get();
 
-        cart.getCartProducts().clear();
-        cartRepository.save(cart);
-    }*/
+            // creo nuovo ordine coi prodotti scelti dall'admin
+            Order ordineUtente = new Order();
+            ordineUtente.setCart(cart);
+            ordineUtente.setUtente(utente);
+
+            orderRepository.save(ordineUtente);
+
+            // svuoto carrello
+            //cart.getCartProducts().clear();
+            cart.setPaid(true);
+
+            cartRepository.save(cart);
+        }
+
+    }
+
+
+
+
+
+
 
 
 }

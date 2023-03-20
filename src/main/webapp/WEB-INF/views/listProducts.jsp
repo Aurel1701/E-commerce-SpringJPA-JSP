@@ -38,7 +38,7 @@
          <td>
          <form class="d-flex" action="/addCarrello" method="post">
           <input type="hidden" name="id" value="${prodotto.id}">
-          <input type="text" name="quantity">
+          <input type="text" name="quantity" required>
          <button type="submit"  class="btn btn-success">
          Aggiungi al carrello
          </button>

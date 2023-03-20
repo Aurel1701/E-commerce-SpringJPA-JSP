@@ -20,6 +20,11 @@ public class Cart {
     @OneToMany(mappedBy = "cart")
     private List<CartEntry> cartProducts = new ArrayList<>();
 
+    @Column(name = "is_paid")
+    private boolean isPaid;
+
+
+
     public Cart() {
     }
 
@@ -47,5 +52,21 @@ public class Cart {
 
     public void setCartProducts(List<CartEntry> cartProducts) {
         this.cartProducts = cartProducts;
+    }
+
+    public Utente getUtente() {
+        return utente;
+    }
+
+    public void setUtente(Utente utente) {
+        this.utente = utente;
+    }
+
+    public boolean isPaid() {
+        return isPaid;
+    }
+
+    public void setPaid(boolean paid) {
+        isPaid = paid;
     }
 }

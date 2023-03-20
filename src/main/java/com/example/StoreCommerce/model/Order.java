@@ -7,16 +7,15 @@ import java.math.BigDecimal;
 @Table(name = "or_der")
 public class Order {
     @Id
-    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "carrello_id")
     private Cart cart;
 
-    @ManyToOne
-    @JoinColumn(name = "utente_id")
+   @ManyToOne
+   @JoinColumn(name = "utente_id")
     private Utente utente;
 
 
@@ -38,7 +37,7 @@ public class Order {
         this.cart = cart;
     }
 
-    public Utente getUtente() {
+   public Utente getUtente() {
         return utente;
     }
 
